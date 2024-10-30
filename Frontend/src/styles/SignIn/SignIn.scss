@@ -3,7 +3,12 @@
 }
   
 .bg-dark {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
     background-color: #12002b;
+    width: 100%;
+    height: 85vh;
 }
 
   
@@ -15,10 +20,16 @@
     margin: 0 auto;
     margin-top: 3rem;
     padding: 2rem;
+    h1{
+        margin: 1.25rem 0;
+        font-size:1.5rem ;
+        font-weight: bold;
+    }
+
 }
   
 .sign-in-icon {
-    font-size: 5rem;
+    font-size: 1rem;
 }
   
 .input-remember {
@@ -43,4 +54,5 @@
 .input-wrapper input {
     padding: 5px;
     font-size: 1.2rem;
+    border: 1px solid light-darkrgb(118, 118, 118);
 }

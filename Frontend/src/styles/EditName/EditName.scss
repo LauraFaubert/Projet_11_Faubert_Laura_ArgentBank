@@ -1,0 +1,29 @@
+.modal-content{
+    display: flex;
+    flex-direction: column;
+    gap:1.25rem;
+    .modal-header{
+        font-size: 1.25rem ;
+        font-weight: bold;
+    }
+    .modal-form{
+        display: flex;
+        flex-direction: column;
+        gap:0.625rem;
+        label{
+            margin-right: 0.625rem ;
+        }
+        input{
+            border-radius:0.625rem ;
+            border: none;
+            padding: 0.625rem;
+        }
+    
+    }
+    .button-group{
+        display: flex;
+        justify-content: center;
+        gap: 0.625rem;
+    }
+}
+

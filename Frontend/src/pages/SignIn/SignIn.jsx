@@ -1,38 +1,53 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCircleUser } from "@fortawesome/free-solid-svg-icons";
 import Button from "../../components/Button/Button";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchUserProfile, loginUser } from "../../authentification/loginSlice";
+import { useNavigate } from "react-router-dom";
 
 function SignIn() {
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { status, error } = useSelector((state) => state.user);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Logique de soumission avec Redux ou un appel API pour la connexion à implémenter ici
-    console.log(
-      "Username:",
-      username,
-      "Password:",
-      password,
-      "Remember Me:",
-      rememberMe
-    );
+    ////console.log("Password:", password); // Vérifiez que le mot de passe
+    // Connexion avec Redux
+    dispatch(loginUser({ email, password }));
+    //console.log("Token from localStorage:", localStorage.getItem("token"));
   };
+
+  const { userToken } = useSelector((state) => state.user) || {}; // Accéder directement à userToken
+
+  useEffect(() => {
+    if (userToken) {
+      dispatch(fetchUserProfile(userToken));
+      navigate("/user");
+    }
+  }, [userToken, dispatch, navigate]);
 
   return (
     <>
       <main className="main bg-dark">
         <section className="sign-in-content">
-          <i className="fa fa-user-circle sign-in-icon"></i>
+          <FontAwesomeIcon
+            icon={faCircleUser}
+            className="fa fa-user-circle sign-in-icon"
+          ></FontAwesomeIcon>
           <h1>Sign In</h1>
           <form onSubmit={handleSubmit}>
             <div className="input-wrapper">
-              <label htmlFor="username">Username</label>
+              <label htmlFor="email">Email</label>
               <input
                 type="text"
-                id="username"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
+                id="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
               />
             </div>
             <div className="input-wrapper">
@@ -58,6 +73,8 @@ function SignIn() {
               className={"sign-in-button"}
             ></Button>
           </form>
+          {status === "loading" && <p>Loading...</p>}
+          {error && <p>{error}</p>}
         </section>
       </main>
     </>
